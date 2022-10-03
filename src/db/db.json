@@ -1,0 +1,273 @@
+{
+  "meds": [
+    {
+      "id": 1,
+      "name": "Tylenol",
+      "type": "Paracetamol",
+      "image": "tylenol",
+      "containerType": "Comprimido",
+      "containerCount": 12,
+      "unitAmount": "500mg",
+      "dosage": "500mg",
+      "intakeMethod": "Oral",
+      "detentor": "Janssen-Cilag",
+      "registry": "112363326"
+    },
+    {
+      "id": 2,
+      "name": "Tylenol",
+      "type": "Paracetamol",
+      "image": "tylenol",
+      "containerType": "Comprimido",
+      "containerCount": 12,
+      "unitAmount": "1000mg",
+      "dosage": "1000mg",
+      "intakeMethod": "Oral",
+      "detentor": "Janssen-Cilag",
+      "registry": "112363326"
+    }
+  ],
+  "schedules": [
+    {
+      "id": "cafe7a4c-cab3-434d-8286-ec88805dd0de",
+      "createdAt": "2021-10-03T04:29:43.266Z",
+      "active": false,
+      "med": {
+        "id": 1,
+        "name": "Tylenol",
+        "type": "Paracetamol",
+        "image": "tylenol",
+        "containerType": "Comprimido",
+        "containerCount": 12,
+        "unitAmount": "500mg",
+        "dosage": "500mg",
+        "intakeMethod": "Oral",
+        "detentor": "Janssen-Cilag",
+        "registry": "112363326"
+      },
+      "medExpireDate": "2021-10-26T03:00:00.000Z",
+      "medCount": 12,
+      "plan": {
+        "frequency": 3,
+        "intervalDays": 1,
+        "duration": 4
+      },
+      "events": [
+        {
+          "id": "d02937a9-9bae-422b-a45f-6d618b9cb8c0",
+          "date": "2021-10-04T05:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "d4f981e9-2709-4083-a174-6939871eb44a",
+          "date": "2021-10-04T13:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "f511b5d3-9429-4078-9f17-b6007434b28b",
+          "date": "2021-10-04T21:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "8511d356-c5cb-42e1-836d-a1d484bb54d3",
+          "date": "2021-10-05T05:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "af9465a6-9498-4e92-b649-646681d5b432",
+          "date": "2021-10-05T13:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "36b62188-21dd-4b99-ab1c-d46f16794871",
+          "date": "2021-10-05T21:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "f5f55825-4d6b-470b-92a5-c3c519a17dee",
+          "date": "2021-10-06T05:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "304d9d50-59d7-471d-a029-ea2d7b11cdae",
+          "date": "2021-10-06T13:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "51dc38f2-0dfc-49d8-97e6-c0c7cfd85269",
+          "date": "2021-10-06T21:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "1bb86c22-1a53-461c-9bb5-00f64a15334d",
+          "date": "2021-10-07T05:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "cbb330fc-0529-4346-be48-fb27c136c855",
+          "date": "2021-10-07T13:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "3eb3be96-d83c-45d8-a893-0e76a34af17b",
+          "date": "2021-10-07T21:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "01f77592-3606-4a97-bb62-a1f4ed27a1d6",
+          "date": "2021-10-08T05:29:26.355Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        }
+      ],
+      "updates": {
+        "medDiscarded": true
+      },
+      "medDiscarded": false
+    },
+    {
+      "id": "760adf84-cd86-4d37-b6f4-c6436fc729eb",
+      "createdAt": "2022-10-03T04:30:43.081Z",
+      "active": true,
+      "med": {
+        "id": 1,
+        "name": "Tylenol",
+        "type": "Paracetamol",
+        "image": "tylenol",
+        "containerType": "Comprimido",
+        "containerCount": 12,
+        "unitAmount": "500mg",
+        "dosage": "500mg",
+        "intakeMethod": "Oral",
+        "detentor": "Janssen-Cilag",
+        "registry": "112363326"
+      },
+      "medExpireDate": "2022-10-29T03:00:00.000Z",
+      "medCount": 9,
+      "medDiscarded": false,
+      "plan": {
+        "frequency": 3,
+        "intervalDays": 1,
+        "duration": 4
+      },
+      "events": [
+        {
+          "id": "cdf49de2-0f7f-4037-952c-91ef41ad19cc",
+          "date": "2022-10-04T15:00:15.938Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "9364c6e6-84e6-4ae0-ad00-f98425f5e1c7",
+          "date": "2022-10-04T23:00:15.938Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "982e0334-e3ec-4f94-82e7-99684be92897",
+          "date": "2022-10-05T07:00:15.938Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "e401e817-5d46-4178-9969-546bf1354471",
+          "date": "2022-10-05T15:00:15.938Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "4c5d7169-1a7b-422e-baec-a99b61b4ac2c",
+          "date": "2022-10-05T23:00:15.938Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "07c3f0e9-6a81-4aa8-be06-3e901c6f94bd",
+          "date": "2022-10-06T07:00:15.938Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "7d1e142c-e9e9-4844-b211-f06ffc0196dc",
+          "date": "2022-10-06T15:00:15.938Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "3f569688-7c6d-4bd0-ba9c-de64435e7d8c",
+          "date": "2022-10-06T23:00:15.938Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "9d688642-0c7f-46f5-89f8-d8d1490157e4",
+          "date": "2022-10-07T07:00:15.938Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "21031f04-014b-4499-8da2-b0a9419f2d73",
+          "date": "2022-10-07T15:00:15.938Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "d0ed2e1c-f4a4-4411-a236-bcc956936205",
+          "date": "2022-10-07T23:00:15.938Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "7a0a5ef6-3810-4fc9-a2b4-eaaa2cfed25b",
+          "date": "2022-10-08T07:00:15.938Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "a1521b10-e313-47f2-8701-2d2926523c2b",
+          "date": "2022-10-08T15:00:15.938Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,69 +1,18 @@
-import { useNavigation, useTheme } from "@react-navigation/native";
-import React, { useMemo } from "react";
+import {
+  useFocusEffect,
+  useNavigation,
+  useTheme,
+} from "@react-navigation/native";
+import React, { useCallback, useMemo } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import { Badge, Button, Chip, Text } from "react-native-paper";
+import { Badge, Button, Card, Chip, Text } from "react-native-paper";
 import Loading from "../components/Loading";
 import useFetch from "../hooks/useFetch";
+import useMeds from "../hooks/useMeds";
 import useMoment from "../hooks/useMoment";
+import useSchedules from "../hooks/useSchedules";
 
-const expiredMeds = [
-  {
-    id: 1,
-    name: "Oceral",
-    expiredFor: "2 dias",
-  },
-  {
-    id: 2,
-    name: "NiQuitin",
-    expiredFor: "1 semana",
-  },
-];
-
-const daySchedule = [
-  {
-    id: 1,
-    time: "8:00",
-    meds: [
-      {
-        id: 1,
-        name: "Tylenol",
-        dosage: "1c",
-      },
-      {
-        id: 2,
-        name: "Rinosoro",
-        dosage: "",
-      },
-    ],
-  },
-  {
-    id: 2,
-    time: "12:00",
-    meds: [
-      {
-        id: 1,
-        name: "Rinosoro",
-        dosage: "",
-      },
-    ],
-  },
-  {
-    id: 3,
-    time: "16:00",
-    meds: [
-      {
-        id: 1,
-        name: "Tylenol",
-        dosage: "1c",
-      },
-      {
-        id: 2,
-        name: "Rinosoro",
-        dosage: "",
-      },
-    ],
-  },
-];
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -71,7 +20,9 @@ export default function HomeScreen() {
 
   const { moment, calendarDayOnlyFormats } = useMoment();
 
-  const { data: schedules, loading, error } = useFetch("/schedules");
+  // const { data: schedules, loading, error, resendFetch: fetchRefresh } = useFetch("/schedules");
+  const { schedules, loading, error, refreshSchedules, refresh } =
+    useSchedules();
 
   const expiredSchedules = useMemo(() => {
     if (!schedules) {
@@ -83,7 +34,7 @@ export default function HomeScreen() {
   }, [schedules]);
 
   const expiredNotDiscardedSchedules = useMemo(() => {
-    return expiredSchedules.filter((s) => s.medDiscarded);
+    return expiredSchedules.filter((s) => !s.medDiscarded);
   }, [expiredSchedules]);
 
   const weekMeds = useMemo(() => {
@@ -141,44 +92,79 @@ export default function HomeScreen() {
     return ret;
   }, [schedules]);
 
+  useFocusEffect(
+    useCallback(() => {
+      refresh();
+    }, [])
+  );
+
   if (loading || !schedules) {
     return <Loading />;
   }
 
+  if (schedules.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text variant="headlineMedium">Olá!</Text>
+        <Text variant="headlineSmall">Não há medicamentos para análise</Text>
+        <Button onPress={() => navigation.navigate("NewMed")}>
+          Criar um novo plano de medicamento
+        </Button>
+        <Button onPress={() => navigation.navigate("DiscardInfo")}>
+          Mais informações sobre a importância do descarte
+        </Button>
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.dashContainer}>
-        <View style={styles.dashItem}>
-          <Text variant="headlineSmall" style={{ textAlign: "center" }}>
-            Descarte
-          </Text>
-          <Button
-            compact={true}
-            onPress={() => navigation.navigate("ExpiredMeds")}
-          >
-            Saiba mais
-          </Button>
-        </View>
-        <View style={styles.dashItem}>
-          <Text style={styles.title}>
-            {(
-              (100 * expiredSchedules.filter((s) => s.medDiscarded).length) /
-              expiredSchedules.length
-            ).toFixed(0)}{" "}
-            %
-          </Text>
-        </View>
-      </View>
-      <View style={styles.dashContainer}>
-        <View style={styles.dashItem}>
-          <Text style={styles.title}>{weekMeds.toFixed(0)} %</Text>
-        </View>
-        <View style={styles.dashItem}>
-          <Text variant="headlineSmall" style={{ textAlign: "center" }}>
-            Medicamentos da Semana
-          </Text>
-        </View>
-      </View>
+      <Card mode="outlined">
+        <Card.Content>
+          <View style={styles.dashContainer}>
+            <View style={styles.dashItem}>
+              <Text variant="headlineSmall" style={{ textAlign: "center" }}>
+                Descarte
+              </Text>
+              <Button
+                compact={true}
+                onPress={() => navigation.navigate("ExpiredMeds")}
+              >
+                Saiba mais
+              </Button>
+            </View>
+            <View style={styles.dashItem}>
+              {expiredSchedules.length === 0 && <Text style={{textAlign: 'center'}}>Não há medicamentos expirados</Text>}
+              {expiredSchedules.length > 0 && (
+
+              <Text style={styles.title}>
+                {(
+                  (100 *
+                    expiredSchedules.filter((s) => s.medDiscarded).length) /
+                  expiredSchedules.length
+                ).toFixed(0)}{" "}
+                %
+              </Text>
+              )}
+            </View>
+          </View>
+        </Card.Content>
+      </Card>
+
+      <Card style={{marginTop: 20}} mode="outlined">
+        <Card.Content>
+          <View style={styles.dashContainer}>
+            <View style={styles.dashItem}>
+              <Text style={styles.title}>{weekMeds.toFixed(0)} %</Text>
+            </View>
+            <View style={styles.dashItem}>
+              <Text variant="headlineSmall" style={{ textAlign: "center" }}>
+                Medicamentos da Semana
+              </Text>
+            </View>
+          </View>
+        </Card.Content>
+      </Card>
 
       <View>
         <Text

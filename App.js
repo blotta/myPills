@@ -21,6 +21,9 @@ import NewScheduleScreen from "./src/screens/NewScheduleScreen.js";
 import SchedulesScreen from "./src/screens/SchedulesScreen.js";
 import ScheduleDetailsScreen from "./src/screens/ScheduleDetailsScreen.js";
 
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import DebuggingScreen from "./src/screens/DebuggingScreen.js";
+
 const theme = {
   ...PaperDarkTheme,
   ...NavigationDarkTheme,
@@ -52,6 +55,7 @@ export default function App() {
             <Stack.Screen name="NewSchedule" options={{title: "Novo Agendamento"}} component={NewScheduleScreen} />
             <Stack.Screen name="Schedules" options={{title: "Meus Medicamentos"}} component={SchedulesScreen} />
             <Stack.Screen name="ScheduleDetails" options={{title: "Delhes do Medicamento"}} component={ScheduleDetailsScreen} />
+            <Stack.Screen name="Debugging" options={{title: "Debugando"}} component={DebuggingScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>

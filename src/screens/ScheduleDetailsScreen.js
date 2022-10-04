@@ -1,6 +1,7 @@
 import { ScrollView, View } from "react-native";
 import React, { useMemo } from "react";
 import {
+  Button,
   Chip,
   Divider,
   Text,
@@ -12,11 +13,13 @@ import useSchedule from "../hooks/useSchedule";
 import Loading from "../components/Loading";
 import useMoment from "../hooks/useMoment";
 import useScheduleService from "../hooks/useScheduleService";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ScheduleDetailsScreen({ route }) {
   const { scheduleId } = route.params;
+  const navigation = useNavigation();
   const theme = useTheme();
-  const { schedule, loading, error, refresh } = useSchedule(scheduleId);
+  const { schedule, loading, error, refresh, remove } = useSchedule(scheduleId);
   const { planString, toggleTaken } = useScheduleService();
 
   const { moment, calendarDayOnlyFormats } = useMoment();
@@ -54,6 +57,11 @@ export default function ScheduleDetailsScreen({ route }) {
   const handleToggleEvent = async (eventId) => {
     await toggleTaken(schedule.id, eventId);
     refresh();
+  };
+
+  const handleDeleteSchedule = async () => {
+    await remove();
+    navigation.navigate("Home");
   }
 
   return (
@@ -112,7 +120,6 @@ export default function ScheduleDetailsScreen({ route }) {
         Agenda
       </Text>
 
-
       {groupedSchedules.map((sch) => (
         <View key={sch.day}>
           <Text variant="titleLarge" style={{ marginTop: 10 }}>
@@ -140,6 +147,18 @@ export default function ScheduleDetailsScreen({ route }) {
           </View>
         </View>
       ))}
+
+      <Button
+        mode="elevated"
+        buttonColor={theme.colors.error}
+        textColor={theme.colors.onError}
+        uppercase
+        elevation={5}
+        style={{ marginTop: 50, marginBottom: 20 }}
+        onPress={handleDeleteSchedule}
+      >
+        Deletar
+      </Button>
     </ScrollView>
   );
 }

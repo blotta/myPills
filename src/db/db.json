@@ -145,10 +145,7 @@
           "addedToCalendar": false
         }
       ],
-      "updates": {
-        "medDiscarded": true
-      },
-      "medDiscarded": false
+      "medDiscarded": true
     },
     {
       "id": "760adf84-cd86-4d37-b6f4-c6436fc729eb",
@@ -168,7 +165,7 @@
         "registry": "112363326"
       },
       "medExpireDate": "2022-10-29T03:00:00.000Z",
-      "medCount": 9,
+      "medCount": 12,
       "medDiscarded": false,
       "plan": {
         "frequency": 3,
@@ -194,14 +191,14 @@
           "id": "982e0334-e3ec-4f94-82e7-99684be92897",
           "date": "2022-10-05T07:00:15.938Z",
           "intakeCount": 1,
-          "taken": true,
+          "taken": false,
           "addedToCalendar": false
         },
         {
           "id": "e401e817-5d46-4178-9969-546bf1354471",
           "date": "2022-10-05T15:00:15.938Z",
           "intakeCount": 1,
-          "taken": true,
+          "taken": false,
           "addedToCalendar": false
         },
         {
@@ -229,7 +226,7 @@
           "id": "3f569688-7c6d-4bd0-ba9c-de64435e7d8c",
           "date": "2022-10-06T23:00:15.938Z",
           "intakeCount": 1,
-          "taken": true,
+          "taken": false,
           "addedToCalendar": false
         },
         {
@@ -263,6 +260,83 @@
         {
           "id": "a1521b10-e313-47f2-8701-2d2926523c2b",
           "date": "2022-10-08T15:00:15.938Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        }
+      ]
+    },
+    {
+      "id": "389222af-6cd8-43f9-a782-ab1b49eb8ef5",
+      "createdAt": "2022-10-04T00:25:37.456Z",
+      "active": true,
+      "med": {
+        "id": 1,
+        "name": "Tylenol",
+        "type": "Paracetamol",
+        "image": "tylenol",
+        "containerType": "Comprimido",
+        "containerCount": 12,
+        "unitAmount": "500mg",
+        "dosage": "500mg",
+        "intakeMethod": "Oral",
+        "detentor": "Janssen-Cilag",
+        "registry": "112363326"
+      },
+      "medExpireDate": "2022-10-31T03:00:00.000Z",
+      "medCount": 11,
+      "medDiscarded": false,
+      "plan": {
+        "frequency": 3,
+        "intervalDays": 1,
+        "duration": 2
+      },
+      "events": [
+        {
+          "id": "a265f3fb-5588-4ecd-b3be-3c31d5b07b7c",
+          "date": "2022-10-04T11:00:18.703Z",
+          "intakeCount": 1,
+          "taken": true,
+          "addedToCalendar": false
+        },
+        {
+          "id": "e98b150e-8c94-4398-92e3-95fa1ec08b34",
+          "date": "2022-10-04T19:00:18.703Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "c470c297-a0b3-41ce-893f-191c7c617260",
+          "date": "2022-10-05T03:00:18.703Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "202b0eaf-34f9-471a-950c-14ed8974f3fe",
+          "date": "2022-10-05T11:00:18.703Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "0836c804-f66f-4b73-be45-35051b76f276",
+          "date": "2022-10-05T19:00:18.703Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "c772105e-6e4a-4187-a118-1bcd64a68274",
+          "date": "2022-10-06T03:00:18.703Z",
+          "intakeCount": 1,
+          "taken": false,
+          "addedToCalendar": false
+        },
+        {
+          "id": "3f677fb5-76c3-410d-b3db-eddfff6aa1f2",
+          "date": "2022-10-06T11:00:18.703Z",
           "intakeCount": 1,
           "taken": false,
           "addedToCalendar": false

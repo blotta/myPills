@@ -1,10 +1,12 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
 import { Appbar, Menu, useTheme } from 'react-native-paper'
+import useDebugging from '../hooks/useDebugging';
 
 export default function CustomNavigationBar({back, options}) {
   const navigation = useNavigation();
   const theme = useTheme();
+  const {debugging} = useDebugging();
 
   const [visible, setVisible] = useState(false)
   const openMenu = () => setVisible(true);
@@ -20,6 +22,9 @@ export default function CustomNavigationBar({back, options}) {
         }>
           <Menu.Item title="Meus Medicamentos" onPress={() => {navigation.navigate("Schedules"); closeMenu()}} />
           <Menu.Item title="Novo Medicamento" onPress={() => {navigation.navigate("NewMed"); closeMenu()}} />
+          { debugging && (
+            <Menu.Item title="Debugar" onPress={() => {navigation.navigate("Debugging"); closeMenu()}} />
+          )}
         </Menu>
       ) }
     </Appbar.Header>

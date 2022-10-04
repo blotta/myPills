@@ -2,8 +2,12 @@ import { v4 as uuid } from "uuid";
 import useMoment from "./useMoment";
 
 import {API_URL} from '@env';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useSchedules from "./useSchedules";
 
 export default function useScheduleService() {
+  const {schedules, loading, error, add: addSchedule, refresh: refreshSchedules, update } = useSchedules();
+
   const { moment } = useMoment();
   const createSchedule = async (med, expireDate, plan, startDate, addToCalendar = false) => {
     const createdAt = moment();
@@ -21,8 +25,12 @@ export default function useScheduleService() {
 
     console.log(JSON.stringify(s, undefined, 2));
 
-    const res = await postSchedule(s);
-    return await res.json();
+    // const res = await postSchedule(s);
+    // return await res.json();
+
+    await addSchedule(s);
+    refreshSchedules();
+    return s;
   };
 
   const generateEvents = (plan, startDate) => {
@@ -46,17 +54,17 @@ export default function useScheduleService() {
     return events;
   };
 
-  const postSchedule = async (data) => {
-    options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }
+  // const postSchedule = async (data) => {
+  //   options = {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(data)
+  //   }
 
-    return await fetch(`${API_URL}/schedules`, options);
-  }
+  //   return await fetch(`${API_URL}/schedules`, options);
+  // }
 
   const planString = (plan) => {
     const f = `${plan.frequency}x`;
@@ -72,9 +80,15 @@ export default function useScheduleService() {
   }
 
   const toggleTaken = async (scheduleId, eventId) => {
-    const scheduleUrl = `${API_URL}/schedules/${scheduleId}`;
-    const res = await fetch(scheduleUrl);
-    const schedule = await res.json();
+    // const scheduleUrl = `${API_URL}/schedules/${scheduleId}`;
+    // const res = await fetch(scheduleUrl);
+    // const schedule = await res.json();
+    const scheduleIdx = schedules.findIndex(s => s.id === scheduleId);
+    if (scheduleIdx < 0) {
+      return;
+    }
+    const schedule = {...schedules[scheduleIdx]};
+
     const idx = schedule.events.findIndex(e => e.id === eventId);
     if (idx < 0) {
       return;
@@ -86,53 +100,59 @@ export default function useScheduleService() {
     } else {
       schedule.medCount += 1;
     }
+    await update(scheduleId, schedule);
 
-    options = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(schedule)
-    }
+    // options = {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(schedule)
+    // }
 
-    return await fetch(scheduleUrl, options);
+    // return await fetch(scheduleUrl, options);
   }
 
-  const updateSchedule = async (scheduleId, updates) => {
-    const scheduleUrl = `${API_URL}/schedules/${scheduleId}`;
-    const res = await fetch(scheduleUrl);
-    const schedule = await res.json();
+  // const updateSchedule = async (scheduleId, updates) => {
+  //   const scheduleUrl = `${API_URL}/schedules/${scheduleId}`;
+  //   const res = await fetch(scheduleUrl);
+  //   const schedule = await res.json();
 
-    const updated = {...schedule, ...updates};
-    console.log(updated);
+  //   const updated = {...schedule, ...updates};
+  //   console.log(updated);
 
-    options = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updated)
-    }
+  //   options = {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(updated)
+  //   }
 
-    return await fetch(scheduleUrl, options);
-  }
+  //   return await fetch(scheduleUrl, options);
+  // }
 
   const toggleDiscardScheduleMed = async (scheduleId) => {
-    const scheduleUrl = `${API_URL}/schedules/${scheduleId}`;
-    const res = await fetch(scheduleUrl);
-    const schedule = await res.json();
+    refreshSchedules();
+    const scheduleIdx = schedules.findIndex(s => s.id === scheduleId);
+    if (scheduleIdx < 0) {
+      return;
+    }
+    const schedule = {...schedules[scheduleIdx]};
     
     schedule.medDiscarded = !schedule.medDiscarded;
 
-    options = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(schedule)
-    }
+    await update(scheduleId, schedule);
 
-    return await fetch(scheduleUrl, options);
+    // options = {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(schedule)
+    // }
+
+    // return await fetch(scheduleUrl, options);
   }
-  return { createSchedule, planString, updateSchedule, toggleTaken, toggleDiscardScheduleMed };
+  return { createSchedule, planString, toggleTaken, toggleDiscardScheduleMed };
 }

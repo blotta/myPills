@@ -1,11 +1,12 @@
 import { View, ScrollView } from "react-native";
 import React, { useMemo, useState } from "react";
-import { Button, Text, useTheme } from "react-native-paper";
+import { Button, Chip, Text, useTheme } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import useFetch from "../hooks/useFetch";
 import Loading from "../components/Loading";
 import useMoment from "../hooks/useMoment";
 import useScheduleService from "../hooks/useScheduleService";
+import useSchedules from "../hooks/useSchedules";
 
 const meds = [
   {
@@ -35,119 +36,165 @@ const meds = [
 ];
 
 export default function ExpiredMedsScreen() {
-  const {moment} = useMoment();
+  const { moment } = useMoment();
 
-  const { data: schedules, loading, error, resendFetch: refresh } = useFetch('/schedules');
-  const {updateSchedule} = useScheduleService();
+  // const { data: schedules, loading, error, resendFetch: refresh } = useFetch('/schedules');
+  const { schedules, loading, error, refresh } = useSchedules();
+  const { toggleDiscardScheduleMed } = useScheduleService();
   const navigation = useNavigation();
   const theme = useTheme();
+
+  const [showAll, setShowAll] = useState(false);
 
   const expiredSchedules = useMemo(() => {
     if (!schedules) {
       return [];
     }
-    return schedules.filter(s => moment(s.medExpireDate).isSameOrBefore(moment()));
-  }, [schedules])
+    return schedules.filter((s) =>
+      moment(s.medExpireDate).isSameOrBefore(moment())
+    );
+  }, [schedules]);
+
+  const results = useMemo(() => {
+    if (showAll) {
+      return schedules;
+    }
+    return expiredSchedules;
+  }, [expiredSchedules, showAll]);
 
   const handleDiscardPress = async (scheduleId) => {
-    const idx = schedules.findIndex(s => s.id === scheduleId);
-    if (idx < 0) {
-      return;
-    }
-    // const sch = {...(schedules[idx])};
-    // sch.medDiscarded = !sch.medDiscarded;
-    console.log(schedules[idx].medDiscarded, 'to', !schedules[idx].medDiscarded);
-    await updateSchedule(scheduleId, {medDiscarded: !schedules[idx].medDiscarded });
+    await toggleDiscardScheduleMed(scheduleId);
     refresh();
-  }
+  };
 
   if (loading || !schedules) {
-    return <Loading />
-  }
-
-  if (expiredSchedules.length == 0) {
-    return <View>Não há medicamentos vencidos</View>
+    return <Loading />;
   }
 
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-evenly",
-          marginVertical: 20,
-        }}
-      >
-        <Text
-          variant="displayMedium"
-          style={{ flex: 1, textAlign: "center", color: theme.colors.primary }}
-        >
-          {(100 * expiredSchedules.filter(s => s.medDiscarded).length / expiredSchedules.length).toFixed(0)} %
-        </Text>
-        <Text variant="headlineMedium" style={{ flex: 2, textAlign: "center" }}>
-          medicamentos descartados
-        </Text>
-      </View>
+    <View style={{flex: 1, padding: 10}}>
+      <ScrollView style={{ flex: 1}}>
+        <View style={{ flexDirection: "row-reverse", padding: 10 }}>
+          <Chip selected={showAll} onPress={() => setShowAll((p) => !p)}>
+            Incluir não expirados
+          </Chip>
+        </View>
+        {showAll == false && expiredSchedules.length == 0 && (
+          <Text style={{ textAlign: "center" }}>
+            Não há medicamentos vencidos
+          </Text>
+        )}
+        {showAll && results.length == 0 && (
+          <Text style={{ textAlign: "center" }}>
+            Não há medicamentos registrados
+          </Text>
+        )}
 
-      <Text variant="bodyLarge" style={{ textAlign: "center" }}>
-        Os seguintes medicamentos passaram da validade e precisam ser
-        descartados
-      </Text>
-
-      {expiredSchedules.map((schedule) => (
-        <View
-          key={schedule.id}
-          style={{
-            borderWidth: 1,
-            borderRadius: 5,
-            borderColor: "gray",
-            marginVertical: 10,
-            padding: 10,
-          }}
-        >
+        {results.length > 0 && (
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "space-between",
+              justifyContent: "space-evenly",
+              marginVertical: 20,
+
             }}
           >
             <Text
-              variant="headlineSmall"
-              style={{ color: theme.colors.primary }}
+              variant="displayMedium"
+              style={{
+                flex: 1,
+                textAlign: "center",
+                color: theme.colors.primary,
+              }}
             >
-              {schedule.med.name}
+              {(
+                (100 * results.filter((s) => s.medDiscarded).length) /
+                results.length
+              ).toFixed(0)}{" "}
+              %
             </Text>
-            <Text>
-              {schedule.med.containerType}{" "}
-              {[schedule.med.containerAmount, schedule.med.unitAmount]
-                .filter((x) => x != null)
-                .join(" ")}
+            <Text
+              variant="headlineMedium"
+              style={{ flex: 2, textAlign: "center" }}
+            >
+              medicamentos descartados
             </Text>
           </View>
+        )}
+
+        {results.length > 0 && showAll == false && (
+          <Text variant="bodyLarge" style={{ textAlign: "center" }}>
+            Os seguintes medicamentos passaram da validade e precisam ser
+            descartados
+          </Text>
+        )}
+
+        {results.map((schedule) => (
           <View
+            key={schedule.id}
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
+              borderWidth: 1,
+              borderRadius: 5,
+              borderColor: "gray",
+              marginVertical: 10,
+              padding: 10,
             }}
           >
-            <Text variant="titleMedium">Expirou {moment().to(moment(schedule.medExpireDate))}</Text>
-            <Button
-              compact={true}
-              labelStyle={{ color: schedule.medDiscarded ? "green" : "red" }}
-              onPress={() => handleDiscardPress(schedule.id)}
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
-              {schedule.medDiscarded ? "Descartado" : "Não descartado"}
-            </Button>
+              <Text
+                variant="headlineSmall"
+                style={{ color: theme.colors.primary }}
+              >
+                {schedule.med.name}
+              </Text>
+              <Text>
+                {schedule.med.containerType}{" "}
+                {[schedule.med.containerAmount, schedule.med.unitAmount]
+                  .filter((x) => x != null)
+                  .join(" ")}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text variant="titleMedium">
+                {moment().isSameOrAfter(moment(schedule.medExpireDate))
+                  ? "Expirou "
+                  : "Expira "}
+                {moment().to(moment(schedule.medExpireDate))}
+              </Text>
+              <Button
+                compact={true}
+                labelStyle={{ color: schedule.medDiscarded ? "green" : "red" }}
+                onPress={() => handleDiscardPress(schedule.id)}
+              >
+                {schedule.medDiscarded ? "Descartado" : "Não descartado"}
+              </Button>
+            </View>
           </View>
-        </View>
-      ))}
-
-      <Button uppercase={true} mode="outlined" onPress={() => {navigation.navigate("DiscardInfo")}}>
+        ))}
+      </ScrollView>
+      <Button
+        icon="information"
+        uppercase={true}
+        mode="outlined"
+        onPress={() => {
+          navigation.navigate("DiscardInfo");
+        }}
+      >
         Como descartar
       </Button>
-    </ScrollView>
+    </View>
   );
 }

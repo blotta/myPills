@@ -27,7 +27,7 @@ const theme = {
   colors: {
     ...PaperDarkTheme.colors,
     ...NavigationDarkTheme.colors,
-    primary: "#cc0",
+    primary: "#EEFF2E",
     // secondary: 'blue'
   },
 };

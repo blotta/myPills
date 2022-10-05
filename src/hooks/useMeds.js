@@ -9,7 +9,8 @@ const key = '@mypills:meds';
 export default function useMeds() {
   // const {status, data: meds} = useFetch('https://localhost:3000/meds')
 
-  const dbmeds = useRef(medsAll);
+  // const dbmeds = useRef(medsAll);
+  const dbmeds = { current: medsAll };
   const [meds, setMeds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

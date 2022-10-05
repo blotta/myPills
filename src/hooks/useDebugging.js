@@ -1,4 +1,4 @@
 
 export default function useDebugging() {
-  return { debugging: true}
+  return { debugging: false}
 }
